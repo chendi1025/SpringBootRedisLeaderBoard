@@ -13,20 +13,22 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @SpringBootApplication
 @EnableRedisRepositories(basePackageClasses = UserRepository.class)
 public class LeaderBoardApplication {
-////
+//
 //	@Bean
 //	JedisConnectionFactory jedisConnectionFactory(){
 //		return new JedisConnectionFactory();
 //	}
-//
+
 //	@Bean
-//	RedisTemplate<String, User> redisTemplate(){
+//	RedisTemplate<?, ?> redisTemplate(){
 //		RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
-//		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 //		return redisTemplate;
 //	}
 
 	public static void main(String[] args) {
+//		ApplicationContext ctx = SpringApplication.run(SpringBootNoBeanApplication.class, args);
+//		ctx.getBean("lion", Lion.class);
+//
 		SpringApplication.run(LeaderBoardApplication.class, args);
 	}
 

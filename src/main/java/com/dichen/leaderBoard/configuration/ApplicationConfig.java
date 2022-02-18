@@ -25,9 +25,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableConfigurationProperties(RedisProperties.class)
 public class ApplicationConfig {
 
-    @Bean
-    @ConditionalOnMissingBean(name = "redisTemplate")
-    public RedisTemplate<Object, Object> redisTemplate(
+
+    @Bean(name = "redisTemplate")
+    public RedisTemplate<?, ?> redisTemplate(
             RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         Jackson2JsonRedisSerializer fastJsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);

@@ -22,7 +22,7 @@ public class UserController {
 
 
     @PostMapping("/leaderBoard/{username}/{score}")
-    public ResponseEntity add(@PathVariable("userName") final String username,
+    public ResponseEntity add(@PathVariable("username") final String username,
                               @PathVariable("score") final int score) {
         if(username == null || username.isEmpty()){
             throw new IllegalArgumentException("username cannot be null");

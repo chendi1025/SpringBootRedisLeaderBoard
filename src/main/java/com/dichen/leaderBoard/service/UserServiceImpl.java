@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
     
     @Resource
-    private RedisTemplate<String, User> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private UserRepository userRepository;
@@ -82,8 +82,13 @@ public class UserServiceImpl implements UserService {
                     start = (int) (index - pageSize / 2 + 1);
                 }
 
+                if(start<0){
+                    indexEnd += Math.abs(start);
+                }
                 indexStart = Math.max(start, 0);
-                indexEnd = (int) (index + pageSize / 2) >= users.size() ? users.size() - 1 : (int) (index + pageSize / 2);
+
+                indexEnd += (int) (index + pageSize / 2) >= users.size() ? users.size() - 1 : (int) (index + pageSize / 2);
+
 
                 loadUsers(usersList, users, indexStart, indexEnd);
             }
@@ -113,7 +118,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void deleteAll() {
+    protected void deleteAll() {
         redisTemplate.opsForZSet().removeRangeByScore("users", Double.MAX_VALUE, Double.MAX_VALUE);
     }
 
