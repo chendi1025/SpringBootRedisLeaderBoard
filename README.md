@@ -117,6 +117,7 @@ Response:
 
 
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/2/3
+
 Response:
 {
 "leaderBoardEntries": [
@@ -142,6 +143,7 @@ Response:
 
 
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/3/3
+
 Response:
 {
 "leaderBoardEntries": [
