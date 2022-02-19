@@ -81,7 +81,7 @@ Response:{
 }
 
 
-@GetMapping("/leaderBoard/all/{pageNumber}/{pageSize}")
+@GetMapping("/leaderBoard/all/{pageNumber}/{pageSize}") with pagination
 
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/1/3
 
@@ -108,6 +108,29 @@ Response:
     "count": 3
 }
 
+Reqeust: GET http://localhost:8080/api/leaderBoard/all/3/3
+Response:
+{
+"leaderBoardEntries": [
+{
+"username": "testuser",
+"index": 6,
+"score": 10
+},
+{
+"username": "testuser3",
+"index": 7,
+"score": 5
+},
+{
+"username": "testuserfdef",
+"index": 8,
+"score": 2
+}
+],
+"page": 3,
+"count": 3
+}
 
 
  @GetMapping(value ="/leaderBoard/{username}/{pageSize}"
@@ -161,3 +184,5 @@ Response:[
         "score": 994
     }
 ]
+
+
