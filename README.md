@@ -33,51 +33,57 @@ Response: {
 
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/1/50
 
-Response:{
-    "leaderBoardEntries": [
-        {
-            "username": "testuse32",
-            "index": 0,
-            "score": 108745
-        },
-        {
-            "username": "testuser3",
-            "index": 1,
-            "score": 10900
-        },
-        {
-            "username": "testuse230",
-            "index": 2,
-            "score": 9294
-        },
-        {
-            "username": "testuse2r",
-            "index": 3,
-            "score": 1087
-        },
-        {
-            "username": "testuse20",
-            "index": 4,
-            "score": 994
-        },
-        {
-            "username": "testuse1",
-            "index": 5,
-            "score": 99
-        },
-        {
-            "username": "testuser",
-            "index": 6,
-            "score": 10
-        },
-        {
-            "username": "testuserfdef",
-            "index": 7,
-            "score": 2
-        }
-    ],
-    "page": 1,
-    "count": 50
+Response:
+{
+"leaderBoardEntries": [
+{
+"username": "testuse32",
+"index": 0,
+"score": 108745
+},
+{
+"username": "testuser3",
+"index": 1,
+"score": 10900
+},
+{
+"username": "testuse230",
+"index": 2,
+"score": 9294
+},
+{
+"username": "testuse2r",
+"index": 3,
+"score": 1087
+},
+{
+"username": "testuse20",
+"index": 4,
+"score": 994
+},
+{
+"username": "testuse1",
+"index": 5,
+"score": 99
+},
+{
+"username": "testuser",
+"index": 6,
+"score": 10
+},
+{
+"username": "testuser3",
+"index": 7,
+"score": 5
+},
+{
+"username": "testuserfdef",
+"index": 8,
+"score": 2
+}
+],
+"page": 1,
+"count": 50
 }
 
 
@@ -87,26 +93,53 @@ Reqeust: GET http://localhost:8080/api/leaderBoard/all/1/3
 
 Response:
 {
-    "leaderBoardEntries": [
-        {
-            "username": "testuse32",
-            "index": 0,
-            "score": 108745
-        },
-        {
-            "username": "testuser3",
-            "index": 1,
-            "score": 10900
-        },
-        {
-            "username": "testuse230",
-            "index": 2,
-            "score": 9294
-        }
-    ],
-    "page": 1,
-    "count": 3
+"leaderBoardEntries": [
+{
+"username": "testuse32",
+"index": 0,
+"score": 108745
+},
+{
+"username": "testuser3",
+"index": 1,
+"score": 10900
+},
+{
+"username": "testuse230",
+"index": 2,
+"score": 9294
 }
+],
+"page": 1,
+"count": 3
+}
+
+
+
+Reqeust: GET http://localhost:8080/api/leaderBoard/all/2/3
+Response:
+{
+"leaderBoardEntries": [
+{
+"username": "testuse2r",
+"index": 3,
+"score": 1087
+},
+{
+"username": "testuse20",
+"index": 4,
+"score": 994
+},
+{
+"username": "testuse1",
+"index": 5,
+"score": 99
+}
+],
+"page": 2,
+"count": 3
+}
+
 
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/3/3
 Response:
