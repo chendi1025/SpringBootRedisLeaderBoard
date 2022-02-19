@@ -12,7 +12,7 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    
+
     @Resource
     private RedisTemplate redisTemplate;
 
@@ -22,10 +22,11 @@ public class UserServiceImpl implements UserService {
     private Set cachedAllUsers;
     private static final String SCORE = "score";
     private static final String USERNAME = "username";
+    private static final String USERS = "users";
 
     public User save(String userName, int score) {
         redisTemplate.opsForValue().set(userName, new User(userName, score));
-        redisTemplate.opsForZSet().add("users", new User(userName, score), score);
+        redisTemplate.opsForZSet().add(USERS, new User(userName, score), score);
         return new User(userName, score);
     }
 
@@ -34,7 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private Set getCachAllUsers() {
-        return cachedAllUsers == null ? new HashSet() : cachedAllUsers;
+        if(cachedAllUsers == null ){
+          cachedAllUsers = getAllUsersFromRedis();
+        }
+        return cachedAllUsers;
     }
 
     public List<User> findAll(int pageNumber, int pageSize) {
@@ -42,30 +46,32 @@ public class UserServiceImpl implements UserService {
         if (pageNumber != 1) {
             users = getCachAllUsers();
         } else {
-            users = redisTemplate.opsForZSet().reverseRangeByScore("users", 0, Integer.MAX_VALUE);
+            users = getAllUsersFromRedis();
             cacheAllUsers(users);
         }
 
-        if (users != null || users.isEmpty()) {
-            users = redisTemplate.opsForZSet().reverseRangeByScore("users", 0, Integer.MAX_VALUE);
-        }
-
         List<User> usersList = new ArrayList<>();
-        int indexStart = pageNumber * pageSize - pageSize;
-        int indexEnd = pageNumber * pageSize - 1;
-        loadUsers(usersList, users, indexStart, indexEnd);
+        if (users != null) {
+            int indexStart = pageNumber * pageSize - pageSize;
+            int indexEnd = pageNumber * pageSize - 1;
+            loadUsers(usersList, users, indexStart, indexEnd);
+        }
         return usersList;
+    }
+
+    private Set getAllUsersFromRedis() {
+        return redisTemplate.opsForZSet().reverseRangeByScore(USERS, 0, Integer.MAX_VALUE);
     }
 
     public List<User> find(String username, int pageSize) throws Exception {
         try {
             Object res = redisTemplate.opsForValue().get(username);
             LinkedHashMap u = (LinkedHashMap) res;
-            if(u == null){
+            if (u == null) {
                 String msg = String.format("user %s is not found", username);
                 throw new Exception(msg);
             }
-            Long index = redisTemplate.opsForZSet().reverseRank("users", new User(username, ((Integer) u.get(SCORE)).intValue()));
+            Long index = redisTemplate.opsForZSet().reverseRank(USERS, new User(username, ((Integer) u.get(SCORE)).intValue()));
             if (index == null) {
                 String msg = String.format("user %s is not found", username);
                 throw new Exception(msg);
@@ -73,7 +79,7 @@ public class UserServiceImpl implements UserService {
             int indexEnd = 0, indexStart = 0;
             List<User> usersList = new ArrayList<>();
 
-            Set users = redisTemplate.opsForZSet().reverseRangeByScore("users", 0, Integer.MAX_VALUE);
+            Set users = getAllUsersFromRedis();
             if (users != null) {
                 int start = 0;
                 if (pageSize % 2 == 1) {
@@ -82,7 +88,7 @@ public class UserServiceImpl implements UserService {
                     start = (int) (index - pageSize / 2 + 1);
                 }
 
-                if(start<0){
+                if (start < 0) {
                     indexEnd += Math.abs(start);
                 }
                 indexStart = Math.max(start, 0);
@@ -93,7 +99,7 @@ public class UserServiceImpl implements UserService {
                 loadUsers(usersList, users, indexStart, indexEnd);
             }
             return usersList;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -119,7 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteAll() {
-        redisTemplate.opsForZSet().removeRangeByScore("users", Double.MAX_VALUE, Double.MAX_VALUE);
+        redisTemplate.opsForZSet().removeRangeByScore(USERS, Double.MAX_VALUE, Double.MAX_VALUE);
     }
 
 }
