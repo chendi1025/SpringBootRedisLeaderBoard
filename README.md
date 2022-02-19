@@ -11,7 +11,7 @@ For having a dockerized redis running in your local env, please use the docker-c
 # docker run -dp 6379:6379 --name some-redis -d redis 
 
 
-Two main APIs are implemented to return all the leader data and specific leaders with in the range based on the score in Json format. 
+Two main APIs are implemented, one is to return all the leaders' data in descending order based on scores, and the other one is to return specific leader and the "neighbors" within the range based on the score in Json format. 
 Pagination is also implemented.
 
 Example API invocation:
