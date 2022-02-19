@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    protected void deleteAll() {
+    public void deleteAll() {
         redisTemplate.opsForZSet().removeRangeByScore("users", Double.MAX_VALUE, Double.MAX_VALUE);
     }
 

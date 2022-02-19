@@ -27,7 +27,7 @@ public class UserController {
         if(username == null || username.isEmpty()){
             throw new IllegalArgumentException("username cannot be null");
         }
-        return ResponseEntity.ok(userService.save(username, score));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(username, score));
     }
 
 
@@ -35,14 +35,17 @@ public class UserController {
     public Object get(@PathVariable("username") final String username,
                       @PathVariable("pageSize") int pageSize) {
         if(username == null || username.isEmpty()){
-            throw new IllegalArgumentException("username cannot be null");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("username cannot be null or empty");
         }
         pageSize = pageSize == 0 ? PAGE_SIZE : pageSize;
         List<User> users = null;
         try {
             users = userService.find(username, pageSize);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            if(e.getMessage().contains("not found")){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
         if(users == null || users.isEmpty()){
             String s = String.format("User  %s not found", username);

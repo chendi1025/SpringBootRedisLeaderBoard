@@ -1,23 +1,25 @@
 # SpringBootRedisLeaderBoard
-# Java
+# READY-TO-RUN PROJECT
 
 This project uses Springboot and Redis to persist and rander the leader data.
 
 For having a dockerized redis running in your local env, please use the docker-compose.yml or run below command:
 
-docker run -dp 6379:6379 --name some-redis -d redis 
+##docker run -dp 6379:6379 --name some-redis -d redis 
 
 
 
-After clone the repo, please find LeaderBoardApplication and run the main method. The application will be up and running at port 8080
+##After cloning the repo and opening in IntelliJ, please find LeaderBoardApplication and run the main method. The application will be up and running at localhost:8080
 
 Two main APIs are implemented to return all the leader data and specific leaders with in the range based on the score in Json format. 
 Pagination is also implemented.
 
-Example API invacation:
+Example API invocation:
 
 @PostMapping("/leaderBoard/{username}/{score}")
+
 Reqeust: POST http://localhost:8080/api/leaderBoard/testuser/2
+
 Response: {
     "username": "testuser",
     "index": 0,
@@ -25,8 +27,12 @@ Response: {
 }
 
 
+
+
 @GetMapping("/leaderBoard/all/{pageNumber}/{pageSize}")
+
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/1/50
+
 Response:{
     "leaderBoardEntries": [
         {
@@ -76,7 +82,9 @@ Response:{
 
 
 @GetMapping("/leaderBoard/all/{pageNumber}/{pageSize}")
+
 Reqeust: GET http://localhost:8080/api/leaderBoard/all/1/3
+
 Response:
 {
     "leaderBoardEntries": [
@@ -103,7 +111,9 @@ Response:
 
 
  @GetMapping(value ="/leaderBoard/{username}/{pageSize}"
-Reqeust: GET http://localhost:8080/api/leaderBoard/testuser3/2
+
+Request: GET http://localhost:8080/api/leaderBoard/testuser3/2
+
 Response:[
     {
         "username": "testuser3",
@@ -121,7 +131,9 @@ Response:[
 
 
  @GetMapping(value ="/leaderBoard/{username}/{pageSize}"
+
 Reqeust: GET http://localhost:8080/api/leaderBoard/testuser3/5
+
 Response:[
     {
         "username": "testuse32",
